@@ -1,0 +1,65 @@
+[project]
+name = "chuk-mcp-pdf"
+version = "0.2.0"
+description = "MCP server for creating, editing, and viewing PDF documents"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+dependencies = [
+    "chuk-mcp-server>=0.25.3",
+    "chuk-view-schemas>=0.1.8",
+    "fpdf2>=2.8.0",
+    "pypdf>=4.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+markdown = ["markdown>=3.5.0"]
+html = ["weasyprint>=62.0"]
+all = ["markdown>=3.5.0", "weasyprint>=62.0"]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "bandit>=1.7.0",
+    "markdown>=3.5.0",
+]
+
+[project.scripts]
+chuk-mcp-pdf = "chuk_mcp_pdf.server:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "chuk_mcp_server",
+    "chuk_mcp_server.*",
+    "chuk_view_schemas",
+    "chuk_view_schemas.*",
+    "fpdf",
+    "fpdf.*",
+    "pypdf",
+    "pypdf.*",
+    "weasyprint",
+    "markdown",
+]
+ignore_missing_imports = true
+follow_imports = "skip"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
